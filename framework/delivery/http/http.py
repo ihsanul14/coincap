@@ -1,15 +1,11 @@
-from usecase import Usecase
-from framework.error import Error
 from fastapi import FastAPI
-from .user import UserRouter
-from .tracker import TrackerRouter
+from application.http.http import HttpApplication
+from framework.infra import Infra
 
 class HttpDelivery:
-    usecase = Usecase()
-    error = Error()
+    infra = Infra()
     def __init__(self, app:FastAPI):
         self.app = app
         
     def init_router(self):
-        UserRouter(self.app, self.error, self.usecase).init_router()
-        TrackerRouter(self.app, self.error, self.usecase).init_router()
+        HttpApplication(self.infra).serve(self.app)
